@@ -39,4 +39,3 @@ class Product(models.Model):
     sales_unit_pkgg = models.CharField(max_length=255, null=True)
     name = models.CharField(max_length=255, null=True)
     active = models.BigIntegerField(default=0)
-

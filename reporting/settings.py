@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'product'
+    'product',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +84,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
         'NAME': 'product'
-    }
+    },
 }
 
 
