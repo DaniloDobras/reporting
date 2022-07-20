@@ -34,7 +34,7 @@ class SingleProductApiView(views.APIView):
 
     @traced
     def get(self, request, product_id: str):
-        queryset = Product.objects.filter(id=product_id)
+        queryset = Product.objects.filter(id=product_id).first()
         serializer = ProductSerializer(queryset)
         return JsonResponse(
             serializer.data,
