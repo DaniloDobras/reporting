@@ -19,6 +19,7 @@ urlpatterns = [
          views.SingleClickNameApiView.as_view()),
     path('products/click_count_active/',
          views.SingleClickCountActive.as_view()),
+    path('products/comparison/', views.ComparisonApiView.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

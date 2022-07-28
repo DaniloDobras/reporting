@@ -1,4 +1,5 @@
-import datetime
+import logging
+import time
 import json
 
 import pandas as pd
@@ -178,3 +179,42 @@ class SingleClickCountActive(views.APIView):
             content_type="application/json",
             safe=False
         )
+
+
+# comparisons
+
+class ComparisonApiView(views.APIView):
+    @traced
+    def get(self, request):
+        click_start_time = round(time.time() * 1000)
+        client = Client(host='localhost')
+        query = """SELECT  count(*) as count, active 
+                                from product.product 
+                                group by active"""
+        result, columns = client.execute(query, with_column_types=True)
+        df = pd.DataFrame(result, columns=[tuple[0] for tuple in columns])
+        df_json = df.to_json(orient='records')
+        json_object = json.loads(df_json)
+        logging.info(json_object)
+        click_end_time = round(time.time() * 1000)
+
+        rel_start_time = round(time.time() * 1000)
+        queryset = (Product.objects.values('active')
+                    .annotate(count=Count('active'))
+                    .order_by()
+                    )
+        serializer = ActiveAggregateSerializer(queryset, many=True)
+        logging.info(serializer)
+        rel_end_time = round(time.time() * 1000)
+        click_time = click_end_time - click_start_time
+        rel_time = rel_end_time - rel_start_time
+        response = {
+            "click_time": click_time,
+            "rel_time": rel_time
+        }
+        return JsonResponse(
+            response,
+            content_type="application/json",
+            safe=False
+        )
+
