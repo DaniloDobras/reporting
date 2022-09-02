@@ -51,3 +51,12 @@ class ActiveAggregateSerializer(serializers.ModelSerializer):
                   )
 
 
+class SalesUnitSerializer(serializers.ModelSerializer):
+    sales_unit_pkgg = serializers.CharField(required=False, allow_null=True)
+    count = serializers.IntegerField(required=False, allow_null=True)
+
+    class Meta:
+        model = Product
+        fields = ('sales_unit_pkgg',
+                  'count',
+                  )
